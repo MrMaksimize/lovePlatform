@@ -1,6 +1,6 @@
-#I Love Puerto Rico
+#Love Platform
 
-The idea for this repository came out of many conversations with people who really love their island and who want to stay there despite some of the issues that make it difficult.  
+This is an abstraction of [I Love Puerto Rico](http://ilovepuertorico.org)
 
 ##Running
 * Install Homebrew [Link]
