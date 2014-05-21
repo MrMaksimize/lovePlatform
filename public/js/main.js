@@ -10,9 +10,9 @@ var prLover = {
 
   templateTweetLink: function(noteData) {
     var tweetLink = {
-      url: 'http://bit.ly/ilovepr',
-      text: 'Yo Me Quedo en Puerto Rico porque ' + noteData.text,
-      hashtags: 'ilovepr'
+      url: this.config.shareUrl,
+      text: this.config.twitter.shareText + ' ' + noteData.text,
+      hashtags: this.config.twitter.shareHash,
     }
     var tweetUrl = 'https://twitter.com/intent/tweet?' + $.param(tweetLink, true);
     return tweetUrl;
@@ -21,9 +21,9 @@ var prLover = {
   templateFBLink: function(noteData) {
     //https://www.facebook.com/sharer/sharer.php?app_id=113869198637480&sdk=joey&u=http://ilovepuertorico.org&display=popup
     var fbLink = {
-      app_id: '113869198637480',
+      app_id: this.config.fb.appId,
       sdk: 'joey',
-      u: 'http://www.ilovepuertorico.org',
+      u: this.config.shareUrl,
       display: 'popup'
     }
 
@@ -32,20 +32,46 @@ var prLover = {
     return fbUrl;
   },
 
+  templateNoteVote: function(noteData) {
+    var noteVote = '';
+    if (this.config.notes.voting === true) {
+      var voteCount = noteData.votes == 0 ? '' : noteData.votes;
+      noteVote += '<div class="note-vote pull-left"><button type="button" data-noteid="'
+        + noteData._id +
+        '"  class="btn-default"><span class="vote-count">'
+        + voteCount +
+        '</span> <i class="fa fa-thumbs-o-up"></i></button></div>';
+    }
+    return noteVote;
+  },
+
+  templateNoteTwitterHandle: function(noteData) {
+    noteTwitterHandle = '';
+    if (noteData.twitterHandle) {
+      noteTwitterHandle += "<div class='note-twitter-handle'><a href='http://twitter.com/" +
+      noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
+    }
+    return noteTwitterHandle;
+  },
+
+  templateNoteTweetLink: function(noteData) {
+    var noteTweetLink = '';
+    if (this.config.notes.tweeting === true) {
+      var tweetUrl = this.templateTweetLink(noteData);
+      noteTweetLink += '<div class="tweet-link pull-right"><a href="'
+        + tweetUrl +
+        '"><img src="img/bird_gray_32.png"/></a></div>';
+    }
+    return noteTweetLink;
+  },
+
   templateNote: function(noteData) {
     // Template the new note.
     var newNote = "<li class='note col-md-3'><div class='note-text note-" + noteData._id + "'>" + noteData.text + "</div>";
-    if (noteData.twitterHandle) {
-      newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
-    }
-    var tweetUrl = this.templateTweetLink(noteData);
-    var voteCount = noteData.votes;
-    if (voteCount == 0) {
-      voteCount = '';
-    }
-    newNote = newNote + '<div class="note-vote pull-left"><button type="button" data-noteid="' + noteData._id + '"  class="btn-default"><span class="vote-count">' + voteCount + '</span> <i class="fa fa-thumbs-o-up"></i></button></div>';
-    newNote = newNote + '<div class="tweet-link pull-right"><a href="' + tweetUrl + '"><img src="img/bird_gray_32.png"/></a></div>';
-    newNote = newNote + "</li>";
+    newNote += this.templateNoteTwitterHandle(noteData);
+    newNote += this.templateNoteVote(noteData);
+    newNote += this.templateNoteTweetLink(noteData);
+    newNote += "</li>";
 
     return newNote;
   },
@@ -173,8 +199,23 @@ var prLover = {
       .isotope({ sortBy: 'original-order' });
   },
 
+  showSharerModal: function(response) {
+    if (this.config.afterSubmit.popUpSharePrompt === true) {
+      var tweetUrl = this.templateTweetLink(response);
+      var fbUrl = this.templateFBLink(response);
+      $('.variable-modal-content').html(
+        '<a class="btn btn-large" href="'
+        + tweetUrl +
+        '">Twitter</a><a target="_blank" class="btn btn-large" href="'
+        + fbUrl +
+        '">Facebook</a>');
+      $('#sharer-modal').modal();
+    }
+  },
+
   init: function() {
     // Setup.
+    this.config = appConfig;
     // Grab Loaded Notes
     var self = this;
     $(this.container).data('loadedNotes', 0);
@@ -210,12 +251,7 @@ var prLover = {
           $('#new-note-form #noteText').val('');
           $('#new-note-form #twitterHandle').val('');
           prLover.prependNewNote(response);
-          var tweetUrl = self.templateTweetLink(response);
-          var fbUrl = self.templateFBLink(response);
-          $('.variable-modal-content').html(
-            '<a class="btn btn-large" href="' + tweetUrl + '">Twitter</a><a target="_blank" class="btn btn-large" href="' + fbUrl + '">Facebook</a>'
-          );
-          $('#sharer-modal').modal();
+          self.showSharerModal(response);
         }
         else {
           for (var i = 0; i < response.errors.length; i ++) {
@@ -233,7 +269,7 @@ var prLover = {
       });
       return false;
     });
-
+    console.log(this.config);
     // Load initial notes set.
     this.getNotes({
       skip: $(this.container).data('loadedNotes'),

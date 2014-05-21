@@ -11,10 +11,11 @@ html(lang='es')
     meta(property='og:site_name' content='Yo Me Quedo En Puerto Rico Porque...')
     meta(property='og:type' content='Website')
     meta(property='og:image' content='http://www.ilovepuertorico.org/img/logo_heart.png')
-    title #{title} Yo Me Quedo en Puerto Rico
+    title #{config.title}
     != css('styles')
     script(src='//platform.twitter.com/widgets.js')
     script.
+       var appConfig = !{JSON.stringify(config)}
     != js('application')
   body
     #wrap

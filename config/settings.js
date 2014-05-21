@@ -1,6 +1,7 @@
 module.exports = {
   title: 'LovePlatform',
   heading: 'I Love LovePlatform Because...',
+  shareUrl: 'http://bit.ly/loveplatform',
   form: {
     textLabel: 'Message',
     textPlaceHolder: 'Message',
@@ -13,8 +14,15 @@ module.exports = {
     voting: true,
     tweeting: true,
   },
+  twitter: {
+    shareText: 'I love LovePlatform Because',
+    shareHash: 'loveplatform',
+  },
+  fb: {
+    appId: '12345'
+  },
   afterSubmit: {
-    popUpTweetPrompt: true
+    popUpSharePrompt: true,
   }
 };
 
