@@ -1,0 +1,14 @@
+language: node_js
+services:
+  - mongodb
+node_js:
+  - '0.10'
+deploy:
+  provider: heroku
+  api_key:
+    secure: SAMPLE
+  app: loveplatform
+  on:
+    repo: MrMaksimize/lovePlatform
+  run:
+    - restart
