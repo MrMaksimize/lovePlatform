@@ -9,8 +9,7 @@ module.exports = function(app) {
  * Home page.
  */
 var index = function(req, res) {
-  console.log(req.appConfig);
-  Note.find(null, null, {limit: 9}, function(err, foundNotes) {
+  Note.find(null, null, {limit: req.appConfig.notes.displayInitial}, function(err, foundNotes) {
     res.render('home', {
        notes: foundNotes,
        config: req.appConfig

@@ -11,8 +11,8 @@ module.exports = {
   },
   notes: {
     displayInitial: 9,
-    voting: true,
-    tweeting: true,
+    voting: false,
+    tweeting: false,
   },
   twitter: {
     shareText: 'I love LovePlatform Because',
@@ -22,7 +22,7 @@ module.exports = {
     appId: '12345'
   },
   afterSubmit: {
-    popUpSharePrompt: true,
+    popUpSharePrompt: false,
   }
 };
 
