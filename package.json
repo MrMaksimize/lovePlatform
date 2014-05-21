@@ -1,5 +1,5 @@
 {
-  "name": "hackathon-starter",
+  "name": "lovePlatform",
   "version": "0.0.0",
   "scripts": {
     "start": "node app.js"
@@ -21,7 +21,6 @@
     "underscore": "~1.6.0",
     "connect-mongo": "~0.4.0",
     "validator": "~3.2.1",
-    "crypto": "0.0.3",
-    "nodetime": "~0.8.15"
+    "crypto": "0.0.3"
   }
 }
