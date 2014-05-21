@@ -1,23 +1,23 @@
 extends layout
 
 block content
-  h1 Yo Me Quedo en Puerto Rico porque...
+  h1 #{config.heading}
   #new-note
   form.form-horizontal(id='new-note-form', method='POST')
     input(type='hidden', name='_csrf', value=token)
     .form-group
-      .col-sm-3.control-label(for='noteText') Nota
+      .col-sm-3.control-label(for='noteText') #{config.form.textLabel}
       .col-sm-7
-        textarea.form-control(type='text', name='noteText', id='noteText', placeholder='Texto', autofocus)
+        textarea.form-control(type='text', name='noteText', id='noteText', placeholder=config.form.textPlaceHolder, autofocus)
     .form-group
-      label.col-sm-3.control-label(for='twitterHandle') @
+      label.col-sm-3.control-label(for='twitterHandle') #{config.form.twitterLabel}
       .col-sm-7
-        input.form-control(type='text', name='twitterHandle', id='twitterHandle', placeholder='Twitter', autofocus)
+        input.form-control(type='text', name='twitterHandle', id='twitterHandle', placeholder=config.form.twitterPlaceHolder, autofocus)
      .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-success(type='submit')
           i.fa.fa-check
-              | Enviar
+            | #{config.form.submitButtonText}
   div.twitter-link-holder
   ul.notes
 

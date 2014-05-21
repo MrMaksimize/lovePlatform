@@ -14,7 +14,7 @@ var expressValidator = require('express-validator');
  */
 
 var secrets = require('./config/secrets');
-var appSettings = require('./config/settings');
+var appConfig = require('./config/settings');
 
 /**
  * Create Express server.
@@ -68,6 +68,8 @@ app.use(function(req, res, next) {
   res.locals.user = req.user;
   res.locals.token = req.csrfToken();
   res.locals.secrets = secrets;
+  // Pass configs through.
+  req.appConfig = appConfig;
   next();
 });
 app.use(flash());
@@ -77,13 +79,14 @@ app.use(function(req, res) {
   res.status(404);
   res.render('404');
 });
+
 app.use(express.errorHandler());
 
 /**
  * Application routes.
  */
-require('./controllers/home')(app, appSettings);
-require('./controllers/note')(app, appSettings);
+require('./controllers/home')(app);
+require('./controllers/note')(app);
 
 /**
  * Start Express server.

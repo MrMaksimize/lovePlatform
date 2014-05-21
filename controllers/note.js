@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Note = require('../models/Note');
 
-module.exports = function(app, config) {
+module.exports = function(app) {
   app.post('/note/new', postNewNoteForm);
   app.get('/notes/:skip/:limit', getNotes);
   app.put('/notes/:note_id', updateNote);

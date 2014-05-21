@@ -5,7 +5,7 @@ module.exports = {
     textLabel: 'Message',
     textPlaceHolder: 'Message',
     twitterLabel: '@',
-    twitterPlaceholder: 'Twitter',
+    twitterPlaceHolder: 'Twitter',
     submitButtonText: 'Submit'
   },
   notes: {
