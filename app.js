@@ -10,17 +10,11 @@ var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 
 /**
- * Load controllers.
- */
-
-var homeController = require('./controllers/home');
-var noteController = require('./controllers/note');
-
-/**
  * API keys + Passport configuration.
  */
 
 var secrets = require('./config/secrets');
+var appSettings = require('./config/settings');
 
 /**
  * Create Express server.
@@ -88,11 +82,9 @@ app.use(express.errorHandler());
 /**
  * Application routes.
  */
+require('./controllers/home')(app, appSettings);
+require('./controllers/note')(app, appSettings);
 
-app.get('/', homeController.index);
-app.post('/note/new', noteController.postNewNoteForm);
-app.get('/notes/:skip/:limit', noteController.getNotes);
-app.put('/notes/:note_id', noteController.updateNote);
 /**
  * Start Express server.
  */

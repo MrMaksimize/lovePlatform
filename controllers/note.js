@@ -1,6 +1,12 @@
 var _ = require('underscore');
 var Note = require('../models/Note');
 
+module.exports = function(app, config) {
+  app.post('/note/new', postNewNoteForm);
+  app.get('/notes/:skip/:limit', getNotes);
+  app.put('/notes/:note_id', updateNote);
+};
+
 
 /**
  * POST /note/new
@@ -8,11 +14,10 @@ var Note = require('../models/Note');
  * @param email
  * @param password
  */
-exports.postNewNoteForm = function(req, res, next) {
+var postNewNoteForm = function(req, res, next) {
   req.assert('noteText', 'Text must be between 1 and 140 characters').len(1, 140);
   req.assert('twitterHandle', 'Twitter handle must be between 1 and 25 characters').len(1, 25);
   var errors = req.validationErrors();
-  console.log(req.body);
   if (errors) {
     return res.send({ errors: errors });
   }
@@ -31,13 +36,10 @@ exports.postNewNoteForm = function(req, res, next) {
  * @param req
  * @param res
  */
-exports.getNotes = function(req, res) {
-  console.log('getnotes');
-  console.log(req.params);
+var getNotes = function(req, res) {
   var requestParams = {};
   var requestParams = {skip: req.params.skip, limit: req.params.limit};
   // TODO validate params incoming.
-  console.log(requestParams);
   // @TODO -- use select here to figure out unneeded params.
   Note.find(null, null, requestParams).sort({ _id: 1 }).exec(function(err, foundNotes){
     res.send({
@@ -53,8 +55,7 @@ exports.getNotes = function(req, res) {
  * @param req
  * @param res
  */
-exports.updateNote = function(req, res) {
-  console.log('updateNote');
+var updateNote = function(req, res) {
   var query = { _id: req.params.note_id, voters: { '$ne':  req.sessionID } };
   var voteOp = req.body.voteCount;
   var update = {};
