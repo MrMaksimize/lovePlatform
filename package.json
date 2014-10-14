@@ -9,6 +9,8 @@
     "bcrypt-nodejs": "~0.0.3",
     "cheerio": "~0.13.1",
     "connect-assets": "~2.5.4",
+    "connect-mongo": "~0.4.0",
+    "crypto": "0.0.3",
     "express": "~3.4.8",
     "express-flash": "~0.0.2",
     "express-validator": "~1.0.1",
@@ -17,10 +19,9 @@
     "mongoose": "~3.8.7",
     "nodemailer": "~0.6.0",
     "request": "~2.33.0",
+    "string": "^2.1.0",
     "twit": "~1.1.12",
     "underscore": "~1.6.0",
-    "connect-mongo": "~0.4.0",
-    "validator": "~3.2.1",
-    "crypto": "0.0.3"
+    "validator": "~3.2.1"
   }
 }

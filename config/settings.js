@@ -1,5 +1,6 @@
 module.exports = {
   title: 'LovePlatform',
+  machineTitle: 'loveplatform',
   heading: 'I Love LovePlatform Because...',
   shareUrl: 'http://bit.ly/loveplatform',
   form: {
